@@ -6,10 +6,9 @@ interface User {
 
 export default function Hello({ data }: User) {
   console.log(data)
-  const name = data?.[0].name
   return (
     <main className="p-4 mt-4">
-      <h1>Hello page {name} </h1>
+      <h1>Products page </h1>
       <Link className=" text-green-400 underline" href={"/"}>
         homepage
       </Link>
@@ -59,9 +58,6 @@ function Products({ products }: { products: Array<Record<string, any>> }) {
   );
 }
 
-type Error = {
-
-}
 export async function getServerSideProps() {
   try {
     const res = await fetch("https:/api.github.com/users/deejarh/repos?per_page=10&page=1");
@@ -71,14 +67,9 @@ export async function getServerSideProps() {
         data: result,
       },
     };
-  } catch (error: any) {
-    if (error instanceof Error) {
-      return {
-        message: error.message,
-      };
-    }
+  } catch (error: Error) {
     return {
-      message: 'Cannot make API request',
+      message: error.message,
     };
   }
 }
